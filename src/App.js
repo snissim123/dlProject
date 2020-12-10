@@ -101,45 +101,70 @@ function App() {
           </div>
           <div style={contentStyle}>
             <p>
-              We have made a skin cancer diagnosis tool that classifies different skin lesions as
-              specific types of malignant and benign cancers (i.e. melanoma, moles, warts, etc.).
-              Specifically, we will be classifying between actinic keratoses and intraepithelial
-              carcinoma / Bowen's disease, basal cell carcinoma, benign keratosis-like lesions
-              (noncancerous UV damage), dermatofibroma, melanoma, melanocytic nevi, and vascular
-              lesions such as angiomas, angiokeratomas, pyogenic granulomas and hemorrhage.
-          </p>
+              We have made a skin cancer diagnosis tool that classifies different skin lesions 
+              as specific types of malignant and benign cancers (i.e. melanoma, moles, warts, 
+              etc.). Specifically, we classify between melanoma, melanocytic nevi, dermatofibroma, 
+              actinic keratoses, vascular lesions (i.e. angiomas, angiokeratomas, pyogenic granulomas, 
+              hemorrhage), squamous cell carcinoma, pigmented benign keratoses (i.e. noncancerous UV 
+              damage), and basal cell carcinoma. This is an interesting problem because skin cancer is 
+              one of the most prevalent types of cancer. According to the World Health Organization, 
+              one in every three cancers diagnosed each year is skin cancer and one in five people are 
+              diagnosed throughout their life. An early diagnosis has a 98% survival rate; once the cancer 
+              reaches the lymphatics the survival rate drops to 62% and once metastasized, down to a mere 
+              16%. As such, skin cancer is a deadly disease which impacts many people. Lesions are easy to 
+              ignore as they seem trivial; having such a classification tool could drastically assist in 
+              catching skin cancers early and thus improve survival rates. The goal of this model is to 
+              classify various lesions as a means of helping a user to determine whether any given lesion 
+              is malignant or benign. 
+            </p>
             <p>
-              We created this tool through the use of various convolutional neural networks.
-              Our results from a variety of convolutional neural network models were analyzed
-              and compared in terms of accuracy and efficiency. Each neural network took in
-              a photo as input and the models outputted a classification from those
-              aforementioned inputs.
-          </p>
+              The work presented in this paper primarily focused on two convolutional neural networks: 
+              AlexNet and ResNet152. We analyzed and compared the results from the models in 
+              terms of accuracy and efficiency. Each neural network took in a 224x264 pixel photo as input; 
+              the models output a classification from those aforementioned. In the experimentation phase, 
+              we created models with various optimization criterion and losses in addition to various 
+              parameters as an effort to finding the most successful results. Ultimately, we chose cross 
+              entropy loss and stochastic gradient descent for the majority of our testing. Furthermore, 
+              we found most success with a learning rate of 0.001, weight decay of 0.00001, and momentum 
+              of 0.9. Our models ran with a batch size of 8 for a total of 100 epochs.
+            </p>
             <p>
-              This is an interesting problem because skin cancer is one of the most prevalent types
-              of cancer. According to the World Health Organization, one in every three cancers
-              diagnosed each year is skin cancer and one in five people are diagnosed throughout their
-              life.  As such, skin cancer is a deadly disease which impacts many people. Lesions are
-              easy to ignore as they seem trivial; having such a classification tool could drastically
-              assist in catching skin cancers early and thus improve survival rates. The goal of this
-              model is to classify various lesions as a means of helping a user to determine whether
-              any given lesion is malignant or benign.
-          </p>
+              In order to train the models, we used the HAM10000 dataset in addition to the GCN dataset, both 
+              of which are accessible via the ISIC database, for a total of 22,000 examples. In addition to 
+              combining various datasets, we also augmented the inputted images to the model to provide a more 
+              diverse dataset. Each image was randomly horizontally flipped with a probability of 0.5, randomly 
+              vertically flipped with a probability of 0.5, and randomly cropped to ensure that lesions are found 
+              in all locations of an image rather than being concentrated in the center. The images were also 
+              normalized upon input. The data was split into training, validation, and testing sets randomly. 
+              After training finished, we analyzed the accuracy and loss of the training and validation sets of 
+              data plotted against epochs and the overall accuracy and loss of the test set of data. These performance 
+              measures were executed twice for each model, once using a top 1 error rate, the traditional rate of 
+              misclassification, in addition to broader measures representing the misclassification between benign 
+              and malignant lesions (i.e. if a lesion is classified as the wrong type of lesion but it is correctly 
+              classified as a malignant or benign type, it will not contribute to the error).
+            </p>
             <p>
-              Pardo specifically asks for 1) motivate the problem ie what is the thing youre trying to do and why anyone should cancer
-              2) describe what youre doing in very high level terms 3) describe how you built/tested ie waht yoru dataset was and how you measured success
-              4) descirbe some results ie how well it works in no more than a paragraph
+              In our experiment analyzation process, we found ResNet152 to be much more efficient and accurate than 
+              the AlexNet. As such, we further focused on hyper-parameter tuning for the ResNet152 based model. Though
+              the AlexNet reached an accuracy of approximately 929924 for the full 8-way classification (i.e. classifying 
+              specific types of lesions rather than just benign/malignant), the ResNet152 model for the same type of 
+              8-way classification reached an accuracy of 0.795 with loss of 0.56. When analyzing the 
+              2-way classification of the same ResNet152 model, we noted an accuracy of 0.84 with loss of 0.285. As is 
+              evident in the figures provided, a bit of overfitting occurred towards the end of the 100 epoch runs. 
+              Regardless, dermatologists have a diagnostic accuracy of approximately 60%. As such, the results of this 
+              model are significant as the model successfully classifies with accuracy significantly higher. 
           </p>
           </div>
 
           <div style={imageStyle}>
             <figure style={figureLeftStyle}>
-              <img src="https://www.vulcantermite.com/wp-content/uploads/2015/11/ISS_5169_02663.jpg" width="400" height="400" alt=""></img>
-              <figcaption>Figure 1: A cute mole.</figcaption>
+              <img src="https://drive.google.com/uc?export=view&id=19W1W50OQTQiZfHV2UA0OXc4_Q0nBd5v1" width="428" height="282" alt=""></img>
+              <figcaption>Figure 1: ResNet152 Benign/Malignant 2 Way Classification Accuracy.</figcaption>
             </figure>
             <figure style={figureRightStyle}>
-              <img src="https://www.vulcantermite.com/wp-content/uploads/2015/11/ISS_5169_02663.jpg" width="400" height="400" alt=""></img>
-              <figcaption>Figure 2: Another cute mole.</figcaption>
+              
+              <img src="https://drive.google.com/uc?export=view&id=1T6beGb4JVDuWgQ_BMdgi1bode2CuGN9d" width="428" height="282" alt=""></img>
+              <figcaption>Figure 2: ResNet152 8 Way Classification Accuracy.</figcaption>
             </figure>
           </div>
         </div>
@@ -150,7 +175,7 @@ function App() {
           </div>
         </div>
         <div style={contentStyle}>
-          <p>Full paper detailing work accessible
+          <p>The full abstract detailing the work done is accessible 
             <a style={linkStyle} href="https://external-preview.redd.it/TsqzbXm1bq59S-MvrzDoqxdvUEA9tuTg0q-uhFezXeA.jpg?auto=webp&s=e2773da412916c059f56d47c916b62d92fca4198"> here.</a>
           </p>
         </div>
